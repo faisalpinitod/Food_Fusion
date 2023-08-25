@@ -59,6 +59,7 @@ export default function MainScreen({ navigation }) {
   );
 }
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
