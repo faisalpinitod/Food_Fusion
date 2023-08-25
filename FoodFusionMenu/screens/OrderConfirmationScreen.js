@@ -1,55 +1,58 @@
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
-export default function OrderConfirmationScreen({ route }) {
-  const { orderedDishes, orderReference } = route.params;
-
+export default function OrderConfirmationScreen({ navigation }) {
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.confirmationContainer}>
-        <Text style={styles.confirmationTitle}>Order Confirmation</Text>
-        <Text style={styles.confirmationText}>
-          Thank you for your order! Your dishes will be prepared shortly.
-        </Text>
-        <Text style={styles.orderReferenceText}>Order Reference: {orderReference}</Text>
-        <Text style={styles.orderedDishesTitle}>Ordered Dishes:</Text>
-        {orderedDishes.map(dish => (
-          <Text key={dish.idMeal} style={styles.orderedDishName}>
-            {dish.strMeal}
-          </Text>
-        ))}
-      </View>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <Image
+        source={require('../assets/stock-vector-modern-illustration-confirmation-of-an-online-order-with-a-girl-illustration-website-order-1781610467.jpg')} // Add your own success image
+        style={styles.successImage}
+      />
+      <Text style={styles.title}>Order Confirmation</Text>
+      <Text style={styles.message}>Your order has been confirmed. Thank you for your purchase!</Text>
+      <TouchableOpacity
+        style={styles.continueButton}
+        onPress={() => navigation.navigate('Main')} // Navigate back to main screen or appropriate screen
+      >
+        <Text style={styles.continueButtonText}>Continue Shopping</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-  },
-  confirmationContainer: {
     padding: 16,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  confirmationTitle: {
+  successImage: {
+    width: 150,
+    height: 150,
+    marginBottom: 16,
+  },
+  title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
   },
-  confirmationText: {
-    fontSize: 18,
-    marginBottom: 16,
+  message: {
+    textAlign: 'center',
+    marginBottom: 32,
   },
-  orderReferenceText: {
-    fontSize: 16,
-    marginBottom: 16,
+  continueButton: {
+    backgroundColor: '#FF5722',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 4,
   },
-  orderedDishesTitle: {
-    fontSize: 20,
+  continueButtonText: {
+    color: '#fff',
     fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  orderedDishName: {
-    fontSize: 16,
+    fontSize: 18,
   },
 });
+
+// export default OrderConfirmationScreen;

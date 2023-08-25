@@ -1,205 +1,70 @@
-// import React from 'react';
-// import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-
-// export default function CartItem({ item, onRemove }) {
-//   return (
-//     <View style={styles.cartItem}>
-//       <Text style={styles.cartItemName}>{item.strMeal}</Text>
-//       <Text style={styles.cartItemQuantity}>Quantity: {item.quantity}</Text>
-//       <Text style={styles.cartItemPrice}>Price: ${parseFloat(item.price) * item.quantity}</Text>
-//       <TouchableOpacity
-//         style={styles.removeCartItemButton}
-//         onPress={onRemove}
-//       >
-//         <Text style={styles.removeCartItemButtonText}>Remove</Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// }
-
-
-// const styles = StyleSheet.create({
-//   cartItem: {
-//     marginBottom: 16,
-//     padding: 8,
-//     backgroundColor: '#f0f0f0',
-//     borderRadius: 8,
-//   },
-//   cartItemName: {
-//     fontSize: 16,
-//     fontWeight: 'bold',
-//   },
-//   cartItemQuantity: {
-//     color: '#666',
-//   },
-//   cartItemPrice: {
-//     color: '#666',
-//   },
-//   removeCartItemButton: {
-//     marginTop: 8,
-//     backgroundColor: '#FF5722',
-//     paddingVertical: 4,
-//     paddingHorizontal: 8,
-//     borderRadius: 4,
-//   },
-//   removeCartItemButtonText: {
-//     color: '#fff',
-//     fontWeight: 'bold',
-//   },
-// });
-
-
-
-// import React from 'react';
-// import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-
-// export default function CartItem({ item, onRemove }) {
-//   return (
-//     <View style={styles.cartItem}>
-//       <Text style={styles.cartItemName}>{item.strMeal}</Text>
-//       <Text style={styles.cartItemQuantity}>Quantity: {item.quantity}</Text>
-//       <Text style={styles.cartItemPrice}>Price: ${parseFloat(item.price) * item.quantity}</Text>
-//       <TouchableOpacity
-//         style={styles.removeCartItemButton}
-//         onPress={onRemove}
-//       >
-//         <Text style={styles.removeCartItemButtonText}>Remove</Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   cartItem: {
-//     marginBottom: 16,
-//     padding: 8,
-//     backgroundColor: '#f0f0f0',
-//     borderRadius: 8,
-//   },
-//   cartItemName: {
-//     fontSize: 16,
-//     fontWeight: 'bold',
-//   },
-//   cartItemQuantity: {
-//     color: '#666',
-//   },
-//   cartItemPrice: {
-//     color: '#666',
-//   },
-//   removeCartItemButton: {
-//     marginTop: 8,
-//     backgroundColor: '#FF5722',
-//     paddingVertical: 4,
-//     paddingHorizontal: 8,
-//     borderRadius: 4,
-//   },
-//   removeCartItemButtonText: {
-//     color: '#fff',
-//     fontWeight: 'bold',
-//   },
-// });
-
-
-
-// import React from 'react';
-// import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-
-// export default function CartItem({ item, onRemove }) {
-//   return (
-//     <View style={styles.cartItem}>
-//       <Text style={styles.cartItemName}>{item.strMeal}</Text>
-//       <Text style={styles.cartItemQuantity}>Quantity: {item.quantity}</Text>
-//       <Text style={styles.cartItemPrice}>Price: ${parseFloat(item.price) * item.quantity}</Text>
-//       <TouchableOpacity
-//         style={styles.removeCartItemButton}
-//         onPress={onRemove}
-//       >
-//         <Text style={styles.removeCartItemButtonText}>Remove</Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   cartItem: {
-//     marginBottom: 16,
-//     padding: 8,
-//     backgroundColor: '#f0f0f0',
-//     borderRadius: 8,
-//   },
-//   cartItemName: {
-//     fontSize: 16,
-//     fontWeight: 'bold',
-//   },
-//   cartItemQuantity: {
-//     color: '#666',
-//   },
-//   cartItemPrice: {
-//     color: '#666',
-//   },
-//   removeCartItemButton: {
-//     marginTop: 8,
-//     backgroundColor: '#FF5722',
-//     paddingVertical: 4,
-//     paddingHorizontal: 8,
-//     borderRadius: 4,
-//   },
-//   removeCartItemButtonText: {
-//     color: '#fff',
-//     fontWeight: 'bold',
-//   },
-// });
-
-
 
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 
-export default function CartItem({ item, onRemove }) {
-  const totalPrice = parseFloat(item.price) * item.quantity;
-
+const CartItem = ({ item, onRemove }) => {
   return (
-    <View style={styles.cartItem}>
-      <Text style={styles.cartItemName}>{item.strMeal}</Text>
-      <Text style={styles.cartItemQuantity}>Quantity: {item.quantity}</Text>
-      <Text style={styles.cartItemPrice}>Price: ${totalPrice.toFixed(2)}</Text>
-      <TouchableOpacity
-        style={styles.removeCartItemButton}
-        onPress={onRemove}
-      >
-        <Text style={styles.removeCartItemButtonText}>Remove</Text>
+    <View style={styles.container}>
+      <Image source={{ uri: item.strMealThumb }} style={styles.image} />
+      <View style={styles.details}>
+        <Text style={styles.title}>{item.strMeal}</Text>
+        <Text style={styles.quantity}>Quantity: {item.quantity}</Text>
+        <View style={styles.priceContainer}>
+          <Text style={styles.price}>Price: ${(item.quantity * 9.99).toFixed(2)}</Text>
+        </View>
+      </View>
+      <TouchableOpacity onPress={onRemove}>
+        <Text style={styles.removeButton}>Remove</Text>
       </TouchableOpacity>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  cartItem: {
-    marginBottom: 16,
-    padding: 8,
-    backgroundColor: '#f0f0f0',
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+  },
+  image: {
+    width: 80,
+    height: 80,
+    resizeMode: 'cover',
+    marginRight: 12,
     borderRadius: 8,
   },
-  cartItemName: {
+  details: {
+    flex: 1,
+  },
+  title: {
     fontSize: 16,
     fontWeight: 'bold',
+    marginBottom: 4,
   },
-  cartItemQuantity: {
-    color: '#666',
+  quantity: {
+    color: '#888',
+    marginBottom: 4,
   },
-  cartItemPrice: {
-    color: '#666',
-  },
-  removeCartItemButton: {
-    marginTop: 8,
+  priceContainer: {
     backgroundColor: '#FF5722',
-    paddingVertical: 4,
+    alignSelf: 'flex-start',
     paddingHorizontal: 8,
+    paddingVertical: 4,
     borderRadius: 4,
+    marginBottom: 4,
   },
-  removeCartItemButtonText: {
+  price: {
     color: '#fff',
     fontWeight: 'bold',
+    fontSize: 12,
+  },
+  removeButton: {
+    color: '#FF5722',
+    fontWeight: 'bold',
+    fontSize: 14,
   },
 });
 
+export default CartItem;

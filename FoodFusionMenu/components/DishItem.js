@@ -1,57 +1,62 @@
+
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 
-export default function DishItem({ dish, onAddToCart }) {
+const DishItem = ({ item, onAddToCart }) => {
   return (
-    <View style={styles.dishContainer}>
-      <Image source={{ uri: dish.strMealThumb }} style={styles.dishImage} />
-      <Text style={styles.dishName}>{dish.strMeal}</Text>
-      <TouchableOpacity
-        style={styles.addToCartButton}
-        onPress={() => onAddToCart(dish, true)} // true indicates adding
-      >
-        <Text style={styles.addToCartButtonText}>Add to Cart</Text>
-      </TouchableOpacity>
-      {/* <TouchableOpacity
-        style={styles.removeFromCartButton}
-        onPress={() => onAddToCart(dish, false)} // false indicates removing
-      >
-        <Text style={styles.removeFromCartButtonText}>Remove</Text>
-      </TouchableOpacity> */}
-    </View>
+    <TouchableOpacity style={styles.container} onPress={onAddToCart}>
+      <Image source={{ uri: item.strMealThumb }} style={styles.image} />
+      <View style={styles.details}>
+        <Text style={styles.title}>{item.strMeal}</Text>
+        <Text style={styles.category}>{item.strCategory}</Text>
+        <View style={styles.priceContainer}>
+          <Text style={styles.price}>$9.99</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
   );
-}
-
+};
 
 const styles = StyleSheet.create({
-  dishContainer: {
-    flex: 1,
+  container: {
+    flexDirection: 'row',
     alignItems: 'center',
-    margin: 8,
-    padding: 16,
-    backgroundColor: '#f0f0f0',
+    padding: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+  },
+  image: {
+    width: 80,
+    height: 80,
+    resizeMode: 'cover',
+    marginRight: 12,
     borderRadius: 8,
   },
-  dishImage: {
-    width: 100,
-    height: 100,
-    marginBottom: 8,
-    borderRadius: 8,
+  details: {
+    flex: 1,
   },
-  dishName: {
+  title: {
     fontSize: 16,
     fontWeight: 'bold',
-    textAlign: 'center',
+    marginBottom: 4,
   },
-  addToCartButton: {
-    backgroundColor: '#009688',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
+  category: {
+    color: '#888',
+    marginBottom: 4,
+  },
+  priceContainer: {
+    backgroundColor: '#FF5722',
+    alignSelf: 'flex-start',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
     borderRadius: 4,
-    marginTop: 8,
   },
-  addToCartButtonText: {
+  price: {
     color: '#fff',
     fontWeight: 'bold',
+    fontSize: 12,
   },
 });
+
+export default DishItem;
+

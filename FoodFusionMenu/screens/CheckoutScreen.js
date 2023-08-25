@@ -1,197 +1,80 @@
 
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, SafeAreaView } from 'react-native';
-import CartItem from '../components/CartItem'; // Import your CartItem component here
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 export default function CheckoutScreen({ route }) {
-  const [paymentStatus, setPaymentStatus] = useState(null);
-  const [cart, setCart] = useState(route.params.cart);
+  const { cartItems } = route.params;
+  const [isPaymentProcessing, setPaymentProcessing] = useState(false);
+  const navigation = useNavigation();
 
-  const handleRemoveItem = (itemToRemove) => {
-    const updatedCart = cart.filter(item => item.idMeal !== itemToRemove.idMeal);
-    setCart(updatedCart);
-  };
-
-  const handlePayment = () => {
-    // Simulate payment processing
-    const success = Math.random() < 0.8; // 80% success rate
-
-    if (success) {
-      setPaymentStatus('success');
-    } else {
-      setPaymentStatus('failure');
-    }
+  const handlePayment = async () => {
+    setPaymentProcessing(true);
+    setTimeout(() => {
+      setPaymentProcessing(false);
+      Alert.alert('Payment Successful', 'Thank you for your order!');
+      navigation.navigate('OrderConfirmation'); // Navigate to the OrderConfirmationScreen
+    }, 2000);
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.checkoutContainer}>
-        <Text style={styles.checkoutTitle}>Order Summary</Text>
-        <FlatList
-          data={cart}
-          keyExtractor={item => item.idMeal}
-          renderItem={({ item }) => (
-            <CartItem
-              item={item}
-              onRemove={() => handleRemoveItem(item)}
-            />
-          )}
-        />
-        <TouchableOpacity
-          style={styles.paymentButton}
-          onPress={handlePayment}
-        >
-          <Text style={styles.paymentButtonText}>Proceed to Payment</Text>
-        </TouchableOpacity>
-        {paymentStatus === 'success' && (
-          <Text style={styles.paymentSuccessText}>Payment successful!</Text>
-        )}
-        {paymentStatus === 'failure' && (
-          <Text style={styles.paymentFailureText}>Payment failed. Please try again.</Text>
-        )}
+    <View style={styles.container}>
+      <Text style={styles.title}>Checkout</Text>
+      {/* Display cart items and total price */}
+      <View style={styles.totalContainer}>
+        <Text style={styles.totalText}>Total:</Text>
+        <Text style={styles.totalAmount}>
+          ${(cartItems.reduce((total, item) => total + item.quantity * 9.99, 0)).toFixed(2)}
+        </Text>
       </View>
-    </SafeAreaView>
+      <TouchableOpacity
+        style={styles.confirmButton}
+        onPress={handlePayment} // Call the handlePayment function on button press
+        disabled={isPaymentProcessing} // Disable the button while payment is being processed
+      >
+        <Text style={styles.confirmButtonText}>
+          {isPaymentProcessing ? 'Processing...' : 'Confirm Order'}
+        </Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 16,
     backgroundColor: '#fff',
   },
-  checkoutContainer: {
-    padding: 16,
-  },
-  checkoutTitle: {
-    fontSize: 18,
+  title: {
+    fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
   },
-  paymentButton: {
-    backgroundColor: '#009688',
+  totalContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderTopWidth: 1,
+    borderTopColor: '#f0f0f0',
+    paddingVertical: 16,
+  },
+  totalText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  totalAmount: {
+    fontSize: 18,
+  },
+  confirmButton: {
+    backgroundColor: '#FF5722',
     paddingVertical: 12,
     alignItems: 'center',
-    justifyContent: 'center',
+    borderRadius: 4,
+    marginTop: 16,
   },
-  paymentButtonText: {
+  confirmButtonText: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 16,
-  },
-  paymentSuccessText: {
-    color: 'green',
-    fontWeight: 'bold',
-    marginTop: 16,
-    textAlign: 'center',
-  },
-  paymentFailureText: {
-    color: 'red',
-    fontWeight: 'bold',
-    marginTop: 16,
-    textAlign: 'center',
   },
 });
-
-// import React, { useState } from 'react';
-// import { View, Text, TouchableOpacity, FlatList, StyleSheet, SafeAreaView } from 'react-native';
-// import { useNavigation } from '@react-navigation/native';
-// import CartItem from '../components/CartItem';
-
-// export default function CheckoutScreen({ route }) {
-//   const [paymentStatus, setPaymentStatus] = useState(null);
-//   const [cart, setCart] = useState(route.params.cart);
-//   const navigation = useNavigation();
-
-//   const handleRemoveItem = (itemToRemove) => {
-//     const updatedCart = cart.filter(item => item.idMeal !== itemToRemove.idMeal);
-//     setCart(updatedCart);
-//   };
-
-//   const handlePayment = () => {
-//     // Simulate payment processing
-//     const success = Math.random() < 0.8; // 80% success rate
-
-//     if (success) {
-//       navigation.navigate('OrderConfirmation', {
-//         orderedDishes: cart,
-//         orderReference: generateOrderReference(),
-//       });
-//     } else {
-//       setPaymentStatus('failure');
-//     }
-//   };
-
-//   const generateOrderReference = () => {
-//     const timestamp = new Date().getTime();
-//     const randomDigits = Math.floor(Math.random() * 10000);
-//     return `ORDER-${timestamp}-${randomDigits}`;
-//   };
-
-//   return (
-//     <SafeAreaView style={styles.container}>
-//       <View style={styles.checkoutContainer}>
-//         <Text style={styles.checkoutTitle}>Order Summary</Text>
-//         <FlatList
-//           data={cart}
-//           keyExtractor={item => item.idMeal}
-//           renderItem={({ item }) => (
-//             <CartItem
-//               item={item}
-//               onRemove={() => handleRemoveItem(item)}
-//             />
-//           )}
-//         />
-//         <TouchableOpacity
-//           style={styles.paymentButton}
-//           onPress={handlePayment}
-//         >
-//           <Text style={styles.paymentButtonText}>Proceed to Payment</Text>
-//         </TouchableOpacity>
-//         {paymentStatus === 'success' && (
-//           <Text style={styles.paymentSuccessText}>Payment successful!</Text>
-//         )}
-//         {paymentStatus === 'failure' && (
-//           <Text style={styles.paymentFailureText}>Payment failed. Please try again.</Text>
-//         )}
-//       </View>
-//     </SafeAreaView>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//   },
-//   checkoutContainer: {
-//     padding: 16,
-//   },
-//   checkoutTitle: {
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//     marginBottom: 16,
-//   },
-//   paymentButton: {
-//     backgroundColor: '#009688',
-//     paddingVertical: 12,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-//   paymentButtonText: {
-//     color: '#fff',
-//     fontWeight: 'bold',
-//     fontSize: 16,
-//   },
-//   paymentSuccessText: {
-//     color: 'green',
-//     fontWeight: 'bold',
-//     marginTop: 16,
-//     textAlign: 'center',
-//   },
-//   paymentFailureText: {
-//     color: 'red',
-//     fontWeight: 'bold',
-//     marginTop: 16,
-//     textAlign: 'center',
-//   },
-// });
