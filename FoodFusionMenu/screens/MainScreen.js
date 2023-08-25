@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Modal } from 'react-native';
 import { SearchBar } from 'react-native-elements';
@@ -172,5 +173,33 @@ export default function MainScreen({ navigation }) {
           closeModalButtonText: {
             color: '#fff',
             fontWeight: 'bold',
+          },
+          gridItem: {
+            flex: 0.5, // Set the width of each grid item to take half of the screen width
+            padding: 8,
+            marginBottom: 16,
+          },
+          dishImage: {
+            width: '100%', // Set the width to 100% of the grid item
+            height: 150,   // Adjust the height as needed
+            resizeMode: 'cover',
+            borderRadius: 8,
+          },
+          dishName: {
+            marginTop: 8,
+            fontSize: 16,
+            fontWeight: 'bold',
+            textAlign: 'center',
+          },
+          addToCartButton: {
+            backgroundColor: '#FF5722',
+            paddingVertical: 8,
+            borderRadius: 4,
+            marginTop: 8,
+          },
+          addToCartButtonText: {
+            color: '#fff',
+            fontWeight: 'bold',
+            textAlign: 'center',
           },
         });
