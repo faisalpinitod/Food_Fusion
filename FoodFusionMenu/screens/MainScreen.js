@@ -36,6 +36,12 @@ export default function MainScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <TouchableOpacity
+        style={styles.cartButton}
+        onPress={() => navigation.navigate('Checkout', { cart })}
+      >
+        <Text style={styles.cartButtonText}>View Cart</Text>
+      </TouchableOpacity>
       <FlatList
         data={dishes}
         keyExtractor={item => item.idMeal}
@@ -48,12 +54,7 @@ export default function MainScreen({ navigation }) {
         numColumns={2}
         contentContainerStyle={styles.flatListContainer}
       />
-      <TouchableOpacity
-        style={styles.cartButton}
-        onPress={() => navigation.navigate('Checkout', { cart })}
-      >
-        <Text style={styles.cartButtonText}>View Cart</Text>
-      </TouchableOpacity>
+      
     </SafeAreaView>
   );
 }
